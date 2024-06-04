@@ -101,6 +101,11 @@ class App(QWidget):
             new_filename = newname + extension
             os.rename(os.path.join(self.path,self.temp_dir,old_filename),
                       os.path.join(self.path,new_filename))
+
+        # delete temporary directory
+        ## create temp_dir if it doesn't exist
+        Path.rmdir(os.path.join(self.path,self.temp_dir))
+        # shut down application
         self.close()
             
 
@@ -123,6 +128,8 @@ class App(QWidget):
         # get names of images at path/
         filenames = os.listdir(self.path)  # unsorted!
         filenames.sort()
+        filenames = [f for f in filenames
+                     if os.path.isfile(os.path.join(self.path,f))]
         self.original_names = filenames
 
         # initial image layout
